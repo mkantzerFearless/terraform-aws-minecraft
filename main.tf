@@ -6,7 +6,9 @@ terraform {
 }
 
 // Our AWS provider
-provider "aws" {}
+provider "aws" {
+  region = "us-east-1"
+}
 
 // Find latest Ubuntu AMI, use as default if no AMI specified
 data "aws_ami" "ubuntu" {
@@ -85,7 +87,7 @@ EOF
 data "template_file" "user_data" {
   template = "${file("${path.module}/user_data.sh")}"
 
-  vars {
+  vars  = {
     mc_root         = "${var.mc_root}"
     mc_bucket       = "${var.bucket_id}"
     mc_backup_freq  = "${var.mc_backup_freq}"
